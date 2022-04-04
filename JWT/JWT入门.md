@@ -127,7 +127,6 @@ func main() {
 	if claims, ok := token.Claims.(*MyClaims); ok && token.Valid {
 		fmt.Println(claims)
 	}
-
 }
 ```
 

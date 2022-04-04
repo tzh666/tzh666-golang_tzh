@@ -2,6 +2,7 @@ app:
   name: "web_app"
   mode: "dev"
   port: 9090
+  version: v2
 
 log:
   level: "debug"

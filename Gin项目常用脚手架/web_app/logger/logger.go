@@ -8,6 +8,7 @@ import (
 	"runtime/debug"
 	"strings"
 	"time"
+	"web_app/settings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/natefinch/lumberjack"
@@ -17,12 +18,19 @@ import (
 )
 
 // InitLogger 初始化Logger
-func Init() (err error) {
+func Init(cfg *settings.LogConfig) (err error) {
 	writeSyncer := getLogWriter(
+		/*直接使用viper库去读取配置文件
 		viper.GetString("log.filename"),
 		viper.GetInt("log.max_size"),
 		viper.GetInt("log.max_age"),
 		viper.GetInt("log.max_backups"),
+		*/
+		// 通过结构体的形式去读取配置文件
+		cfg.Filename,
+		cfg.MaxSize,
+		cfg.MaxAge,
+		cfg.MaxBackups,
 	)
 	encoder := getEncoder()
 	var l = new(zapcore.Level)

@@ -304,3 +304,205 @@ func simpleHttpGet(url string) {
 
 
 ### 五、Gin框架使用Zap库
+
+完整版的`logger.go`代码如下：
+
+```go
+package logger
+
+import (
+	"gin_zap_demo/config"
+	"net"
+	"net/http"
+	"net/http/httputil"
+	"os"
+	"runtime/debug"
+	"strings"
+	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/natefinch/lumberjack"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
+)
+
+var lg *zap.Logger
+
+// InitLogger 初始化Logger
+func InitLogger(cfg *config.LogConfig) (err error) {
+	writeSyncer := getLogWriter(cfg.Filename, cfg.MaxSize, cfg.MaxBackups, cfg.MaxAge)
+	encoder := getEncoder()
+	var l = new(zapcore.Level)
+	err = l.UnmarshalText([]byte(cfg.Level))
+	if err != nil {
+		return
+	}
+	core := zapcore.NewCore(encoder, writeSyncer, l)
+
+	lg = zap.New(core, zap.AddCaller())
+	zap.ReplaceGlobals(lg) // 替换zap包中全局的logger实例，后续在其他包中只需使用zap.L()调用即可
+	return
+}
+
+func getEncoder() zapcore.Encoder {
+	encoderConfig := zap.NewProductionEncoderConfig()
+	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
+	encoderConfig.TimeKey = "time"
+	encoderConfig.EncodeLevel = zapcore.CapitalLevelEncoder
+	encoderConfig.EncodeDuration = zapcore.SecondsDurationEncoder
+	encoderConfig.EncodeCaller = zapcore.ShortCallerEncoder
+	return zapcore.NewJSONEncoder(encoderConfig)
+}
+
+func getLogWriter(filename string, maxSize, maxBackup, maxAge int) zapcore.WriteSyncer {
+	lumberJackLogger := &lumberjack.Logger{
+		Filename:   filename,
+		MaxSize:    maxSize,
+		MaxBackups: maxBackup,
+		MaxAge:     maxAge,
+	}
+	return zapcore.AddSync(lumberJackLogger)
+}
+
+// GinLogger 接收gin框架默认的日志
+func GinLogger() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		start := time.Now()
+		path := c.Request.URL.Path
+		query := c.Request.URL.RawQuery
+		c.Next()
+
+		cost := time.Since(start)
+		lg.Info(path,
+			zap.Int("status", c.Writer.Status()),
+			zap.String("method", c.Request.Method),
+			zap.String("path", path),
+			zap.String("query", query),
+			zap.String("ip", c.ClientIP()),
+			zap.String("user-agent", c.Request.UserAgent()),
+			zap.String("errors", c.Errors.ByType(gin.ErrorTypePrivate).String()),
+			zap.Duration("cost", cost),
+		)
+	}
+}
+
+// GinRecovery recover掉项目可能出现的panic，并使用zap记录相关日志
+func GinRecovery(stack bool) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		defer func() {
+			if err := recover(); err != nil {
+				// Check for a broken connection, as it is not really a
+				// condition that warrants a panic stack trace.
+				var brokenPipe bool
+				if ne, ok := err.(*net.OpError); ok {
+					if se, ok := ne.Err.(*os.SyscallError); ok {
+						if strings.Contains(strings.ToLower(se.Error()), "broken pipe") || strings.Contains(strings.ToLower(se.Error()), "connection reset by peer") {
+							brokenPipe = true
+						}
+					}
+				}
+
+				httpRequest, _ := httputil.DumpRequest(c.Request, false)
+				if brokenPipe {
+					lg.Error(c.Request.URL.Path,
+						zap.Any("error", err),
+						zap.String("request", string(httpRequest)),
+					)
+					// If the connection is dead, we can't write a status to it.
+					c.Error(err.(error)) // nolint: errcheck
+					c.Abort()
+					return
+				}
+
+				if stack {
+					lg.Error("[Recovery from panic]",
+						zap.Any("error", err),
+						zap.String("request", string(httpRequest)),
+						zap.String("stack", string(debug.Stack())),
+					)
+				} else {
+					lg.Error("[Recovery from panic]",
+						zap.Any("error", err),
+						zap.String("request", string(httpRequest)),
+					)
+				}
+				c.AbortWithStatus(http.StatusInternalServerError)
+			}
+		}()
+		c.Next()
+	}
+}
+```
+
+然后定义日志相关配置：
+
+```go
+type LogConfig struct {
+	Level string `json:"level"`
+	Filename string `json:"filename"`
+	MaxSize int `json:"maxsize"`
+	MaxAge int `json:"max_age"`
+	MaxBackups int `json:"max_backups"`
+}
+```
+
+在项目中先从配置文件加载配置信息，再调用`logger.InitLogger(config.Conf.LogConfig)`即可完成logger实例的初识化。其中，通过`r.Use(logger.GinLogger(), logger.GinRecovery(true))`注册我们的中间件来使用zap接收gin框架自身的日志，在项目中需要的地方通过使用`zap.L().Xxx()`方法来记录自定义日志信息。
+
+```go
+package main
+
+import (
+	"fmt"
+	"gin_zap_demo/config"
+	"gin_zap_demo/logger"
+	"net/http"
+	"os"
+
+	"go.uber.org/zap"
+
+	"github.com/gin-gonic/gin"
+)
+
+func main() {
+	// load config from config.json
+	if len(os.Args) < 1 {
+		return
+	}
+
+	if err := config.Init(os.Args[1]); err != nil {
+		panic(err)
+	}
+	// init logger
+	if err := logger.InitLogger(config.Conf.LogConfig); err != nil {
+		fmt.Printf("init logger failed, err:%v\n", err)
+		return
+	}
+
+	gin.SetMode(config.Conf.Mode)
+
+	r := gin.Default()
+	// 注册zap相关中间件
+	r.Use(logger.GinLogger(), logger.GinRecovery(true))
+
+	r.GET("/hello", func(c *gin.Context) {
+		// 假设你有一些数据需要记录到日志中
+		var (
+			name = "q1mi"
+			age  = 18
+		)
+		// 记录日志并使用zap.Xxx(key, val)记录相关字段
+		zap.L().Debug("this is hello func", zap.String("user", name), zap.Int("age", age))
+
+		c.String(http.StatusOK, "hello liwenzhou.com!")
+	})
+
+	addr := fmt.Sprintf(":%v", config.Conf.Port)
+	r.Run(addr)
+}
+```
+
+```sh
+### 源码地址
+https://github.com/Q1mi/gin_zap_demo
+```
+

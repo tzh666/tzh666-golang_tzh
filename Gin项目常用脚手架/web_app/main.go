@@ -36,7 +36,7 @@ func main() {
 	}
 
 	//2、初始化日志
-	if err := logger.Init(); err != nil {
+	if err := logger.Init(settings.Conf.LogConfig); err != nil {
 		fmt.Println("初始化日志失败", err)
 		// 错误就return,不往下走了
 		return
@@ -45,7 +45,7 @@ func main() {
 	defer zap.L().Sync()
 
 	//3、初始化MySQL连接
-	if err := mysql.Init(); err != nil {
+	if err := mysql.Init(settings.Conf.MysqlConfig); err != nil {
 		fmt.Println("初始化日志失败", err)
 		// 错误就return,不往下走了
 		return
@@ -54,7 +54,7 @@ func main() {
 	defer mysql.Close()
 
 	//4、初始化Redis连接
-	if err := redis.Init(); err != nil {
+	if err := redis.Init(settings.Conf.RedisConfig); err != nil {
 		fmt.Println("初始化日志失败", err)
 		// 错误就return,不往下走了
 		return
