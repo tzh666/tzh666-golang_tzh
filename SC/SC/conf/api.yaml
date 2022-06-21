@@ -1,0 +1,25 @@
+sensecity:
+  scip: "172.20.26.92"
+  username: "admin"
+  password: "NimdaSc@2021"
+  grant_type: "password"
+
+mysql:
+  host: 10.9.240.118
+  port: 10208
+  username: root
+  password: xupsnpNtYYzgaiT
+  dbname: senseface
+
+log:
+  log_path: "logs/app.log"
+  max_size: 10
+  max_backups: 15
+  compress: true
+
+# 获取身份库接口参数
+portrait:
+  sensetype: 3
+  page: 1
+  sagesize: 100
+  tarlibserials: ["aac5eca2-5d95-4304-943d-dbd877010000"]

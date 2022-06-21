@@ -1,0 +1,94 @@
+{
+    "data": {
+      "list": [
+        {
+          "allTagVos": [
+            {
+              "tags": {
+                "职务": [
+                  "馆员345566"
+                ]
+              },
+              "tarLibName": "XX馆",
+              "tarLibSerial": "9a5e4b80-fc00-4bc5-91bb-4b5d7d6ef000"
+            }
+          ],
+          "coverImageSerial": "9a5e4b80fc004bc591bb4b5d7d6ef01900000000000000e8",
+          "coverImageUrl": "https://10.111.33.186:30443/components/osg-default/_/sfd_9a5e4b80fc004bc591bb4b5d7d6ef000/20220402-24d8ff87-000a580ae0006c-00000020-000085c8?signature=gRJGLL21HCNEKUidNX6dXXcGlgk%3D&expires=1653381718&access_key=7PUodIpxsQksyoGYvKwy3GLO",
+          "createTime": 1648883070970,
+          "extendedAttributes": [],
+          "gender": "0",
+          "identityId": "134",
+          "identityType": 1,
+          "imageList": [
+            {
+              "faceScore": 0.7009812593460083,
+              "imageSerial": "9a5e4b80fc004bc591bb4b5d7d6ef01900000000000000e8",
+              "imageUrl": "https://10.111.33.186:30443/components/osg-default/_/sfd_9a5e4b80fc004bc591bb4b5d7d6ef000/20220402-24d8ff87-000a580ae0006c-00000020-000085c8?signature=gRJGLL21HCNEKUidNX6dXXcGlgk%3D&expires=1653381718&access_key=7PUodIpxsQksyoGYvKwy3GLO"
+            }
+          ],
+          "key": "134",
+          "plateNo": "",
+          "rawType": 1,
+          "status": 1,
+          "tags": [
+            {}
+          ],
+          "tarLibName": "XX馆",
+          "tarLibSerial": "9a5e4b80-fc00-4bc5-91bb-4b5d7d6ef000",
+          "targetName": "小丽",
+          "targetSerial": "LM4W6X8BMqufK2yJ-MTo",
+          "terminalId": "",
+          "updateTime": 1648883207965
+        },
+        {
+          "allTagVos": [
+            {
+              "tags": {
+                "职务": [
+                  "三秘"
+                ]
+              },
+              "tarLibName": "XX馆",
+              "tarLibSerial": "9a5e4b80-fc00-4bc5-91bb-4b5d7d6ef000"
+            }
+          ],
+          "coverImageSerial": "9a5e4b80fc004bc591bb4b5d7d6ef01100000000000000e9",
+          "coverImageUrl": "https://10.111.33.186:30443/components/osg-default/_/sfd_9a5e4b80fc004bc591bb4b5d7d6ef000/20220402-48c49417-000a580ae0006c-00000020-00009020?signature=MMP7FCauQXRIoju3NL2G%2BeOZ6Hc%3D&expires=1653381718&access_key=7PUodIpxsQksyoGYvKwy3GLO",
+          "createTime": 1648883131245,
+          "extendedAttributes": [],
+          "gender": "0",
+          "identityId": "456",
+          "identityType": 1,
+          "imageList": [
+            {
+              "faceScore": 0.8178791999816895,
+              "imageSerial": "9a5e4b80fc004bc591bb4b5d7d6ef01100000000000000e9",
+              "imageUrl": "https://10.111.33.186:30443/components/osg-default/_/sfd_9a5e4b80fc004bc591bb4b5d7d6ef000/20220402-48c49417-000a580ae0006c-00000020-00009020?signature=MMP7FCauQXRIoju3NL2G%2BeOZ6Hc%3D&expires=1653381718&access_key=7PUodIpxsQksyoGYvKwy3GLO"
+            }
+          ],
+          "key": "456",
+          "rawType": 1,
+          "status": 1,
+          "tags": [
+            {}
+          ],
+          "tarLibName": "XX馆",
+          "tarLibSerial": "9a5e4b80-fc00-4bc5-91bb-4b5d7d6ef000",
+          "targetName": "小川",
+          "targetSerial": "Lc4X6X8BMqufK2yJ5MRI",
+          "terminalId": "",
+          "updateTime": 1648883131245
+        }
+      ],
+      "page": {
+        "hasNext": false,
+        "page": 1,
+        "pageSize": 98,
+        "total": 2
+      }
+    },
+    "errorCode": "0",
+    "errorMsg": "ok",
+    "success": true
+  }

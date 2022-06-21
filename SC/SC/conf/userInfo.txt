@@ -1,0 +1,1 @@
+{"userName":"55511","realName":"55511","serial":"55511","phone":"55511","roleIds":[3],"orgId":1,"imageUrl":"","addTarLibSerials":["a98ae99e-cef2-4ed3-bed2-133baf7fb000"],"removeTarLibSerials":[],"groupSerials":["1","6jbwokcl9ngg","6jdjql62wg74"]}

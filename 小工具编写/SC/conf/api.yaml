@@ -1,0 +1,18 @@
+sensecity:
+  url: "https://10.9.240.118:10220/uums/users"
+  token: "af986727b42741aa9d106c732c11631a"
+  # 配置文件默认不需要填写,除非你修改了!
+  #userfilepath: "xxx" 
+
+mysql:
+  host: 192.168.1.208
+  port: 3306
+  username: root
+  password: 123456
+  dbname: tzh666
+
+log:
+  log_path: "logs/app.log"
+  max_size: 10
+  max_backups: 15
+  compress: true

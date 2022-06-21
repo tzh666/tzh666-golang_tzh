@@ -1,0 +1,17 @@
+{"level":"error","msg":"获取用户ID失败: \u003cnil\u003e","time":"2022-05-16T16:36:09+08:00"}
+{"level":"info","msg":"userid is: -1","time":"2022-05-16T16:36:09+08:00"}
+{"level":"error","msg":" Failed to add user: \u003cnil\u003e","time":"2022-05-16T16:36:09+08:00"}
+{"level":"info","msg":"连接数据库成功","time":"2022-05-16T17:25:29+08:00"}
+{"level":"info","msg":"连接数据库成功","time":"2022-05-16T17:25:43+08:00"}
+{"level":"error","msg":"获取用户ID失败: \u003cnil\u003e","time":"2022-05-16T17:25:52+08:00"}
+{"level":"info","msg":"userid is: -1","time":"2022-05-16T17:25:52+08:00"}
+{"level":"error","msg":" Failed to add user: \u003cnil\u003e","time":"2022-05-16T17:25:52+08:00"}
+{"level":"error","msg":"获取用户ID失败: \u003cnil\u003e","time":"2022-05-16T17:26:58+08:00"}
+{"level":"info","msg":"userid is: -1","time":"2022-05-16T17:26:58+08:00"}
+{"level":"error","msg":" Failed to add user: \u003cnil\u003e","time":"2022-05-16T17:26:58+08:00"}
+{"level":"error","msg":"获取用户ID失败: \u003cnil\u003e","time":"2022-05-16T18:26:32+08:00"}
+{"level":"info","msg":"userid is: -1","time":"2022-05-16T18:26:32+08:00"}
+{"level":"error","msg":" Failed to add user: \u003cnil\u003e","time":"2022-05-16T18:26:32+08:00"}
+{"level":"error","msg":"获取用户ID失败: \u003cnil\u003e","time":"2022-05-16T18:28:29+08:00"}
+{"level":"info","msg":"userid is: -1","time":"2022-05-16T18:28:29+08:00"}
+{"level":"error","msg":" Failed to add user: \u003cnil\u003e","time":"2022-05-16T18:28:29+08:00"}
